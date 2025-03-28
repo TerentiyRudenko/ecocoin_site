@@ -1,0 +1,54 @@
+body {
+    margin: 0 !important;
+    padding: 0 !important;
+    font-family: Arial, sans-serif;
+    background: #0e0e0e;
+    color: #fff;
+    overflow-x: hidden;
+    max-width: 100%;
+  }
+  
+  /* Добавьте плавное появление секций */
+section {
+    transition: all 0.5s ease;
+    opacity: 1;
+  }
+  
+  section:not(:target) {
+    opacity: 0.9;
+    transform: translateY(20px);
+  }
+  
+  /* Для всех секций */
+  section {
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  /* Особенно для Hero */
+  .hero {
+    width: 100%;
+    overflow: hidden;
+  }
+
+  /* Отключаем скролл при открытом меню */
+body.menu-open {
+    overflow: hidden;
+  }
+
+/* Добавьте эти стили */
+body, html {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100%;
+    overflow-x: hidden;
+    background: #121212; /* Цвет фона сайта */
+  }
+  
+  #root {
+    min-height: 100vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    background: #121212;
+  }

@@ -1,0 +1,101 @@
+/* NFTSection.module.css */
+.nft {
+    text-align: center;
+    background: #181818;
+    padding: 80px 20px;
+    color: #b0ffa0;
+}
+
+.cards {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 30px;
+    flex-wrap: wrap;
+}
+
+.card {
+    background: #252525;
+    padding: 20px;
+    border-radius: 10px;
+    width: 200px;
+    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.card:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 15px 35px rgba(70, 160, 70, 0.15);
+}
+
+.card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(180, 255, 160, 0.2),
+        transparent
+    );
+    transition: 0.5s;
+}
+
+.card:hover::before {
+    left: 100%;
+}
+
+.number {
+    font-size: 24px;
+    font-weight: bold;
+    display: block;
+    margin-bottom: 15px;
+    color: #46a046;
+    transition: 0.3s;
+}
+
+.card:hover .number {
+    color: #d4ff7f;
+    text-shadow: 0 0 15px rgba(180, 255, 160, 0.5);
+}
+
+/* Анимация границы */
+.card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 10px;
+    padding: 2px;
+    background: linear-gradient(
+        45deg,
+        #46a046 0%,
+        #d4ff7f 50%,
+        #46a046 100%
+    );
+    -webkit-mask: 
+        linear-gradient(#fff 0 0) content-box, 
+        linear-gradient(#fff 0 0);
+    mask: 
+        linear-gradient(#fff 0 0) content-box, 
+        linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: 0.4s;
+}
+
+.card:hover::after {
+    opacity: 1;
+}
+
+@media (max-width: 768px) {
+    .card {
+        width: 100%;
+        max-width: 300px;
+    }
+}

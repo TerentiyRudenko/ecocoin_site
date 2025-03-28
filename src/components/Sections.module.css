@@ -1,0 +1,39 @@
+/* Базовые стили для всех секций */
+.section {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 5rem 2rem;
+  margin: 0 auto;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Модификатор для темных секций */
+.darkSection {
+  background: #121212;
+  color: #ffffff;
+}
+
+/* Модификатор для светлых секций */
+.lightSection {
+  background: #181818;
+  color: #d4ff7f;
+}
+
+/* Адаптивные стили */
+@media (max-width: 768px) {
+  .section {
+    padding: 3rem 1rem;
+  }
+}
+@media (max-width: 768px) {
+  .navContainer, .hero {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  
+  body {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+}

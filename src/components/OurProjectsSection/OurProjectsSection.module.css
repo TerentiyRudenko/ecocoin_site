@@ -1,0 +1,204 @@
+.section {
+    padding: 5rem 1rem;
+    background: linear-gradient(to bottom, #0a0a0a, #121212);
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .container {
+    max-width: 800px; /* Уменьшил максимальную ширину */
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+  }
+  
+  .sectionTitle {
+    font-size: 2.5rem;
+    color: #d4ff7f;
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+  
+  .sectionTitle::after {
+    content: '';
+    display: block;
+    width: 100px;
+    height: 3px;
+    background: linear-gradient(to right, #46a046, #d4ff7f);
+    margin: 0.5rem auto 0;
+    border-radius: 3px;
+  }
+  
+  .sectionSubtitle {
+    color: #b0ffa0;
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto 3rem;
+    font-size: 1.1rem;
+    line-height: 1.6;
+  }
+  
+  .projectCard {
+    background: rgba(30, 30, 30, 0.7);
+    border-radius: 15px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(70, 160, 70, 0.2);
+  }
+  
+  .projectCard:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(70, 160, 70, 0.3);
+  }
+  
+  .projectImageWrapper {
+    position: relative;
+    height: 300px;
+    overflow: hidden;
+  }
+  
+  .projectImage {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+  
+  .projectCard:hover .projectImage {
+    transform: scale(1.05);
+  }
+  
+  .imageOverlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.7));
+  }
+  
+  .projectContent {
+    padding: 2rem;
+  }
+  
+  .projectTitle {
+    color: #fff;
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+  }
+  
+  .projectDescription {
+    color: #ccc;
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+  }
+  
+  .tagsContainer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+  }
+  
+  .tag {
+    background: rgba(70, 160, 70, 0.2);
+    color: #b0ffa0;
+    padding: 0.4rem 1rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+  }
+  
+  .projectLink {
+    display: inline-flex;
+    align-items: center;
+    color: #d4ff7f;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+  
+  .projectLink:hover {
+    color: #fff;
+  }
+  
+  .linkIcon {
+    width: 1.2rem;
+    height: 1.2rem;
+    margin-left: 0.5rem;
+    stroke: currentColor;
+    transition: transform 0.3s ease;
+  }
+  
+  .projectLink:hover .linkIcon {
+    transform: translateX(5px);
+  }
+  
+  /* Анимация фона */
+  .section::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(
+      circle,
+      rgba(70, 160, 70, 0.05) 0%,
+      rgba(18, 18, 18, 0) 70%
+    );
+    animation: rotate 20s linear infinite;
+    z-index: 1;
+  }
+  
+  @keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  
+  @media (max-width: 768px) {
+    .container {
+      padding: 0 1rem;
+    }
+    
+    .projectImageWrapper {
+      height: 200px;
+    }
+    
+    .projectContent {
+      padding: 1.5rem;
+    }
+  }
+
+.projectLink {
+    position: relative;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
+    padding-block: 0.5rem;
+    padding-inline: 1.25rem;
+    background-color: rgb(0 107 179);
+    border-radius: 9999px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffff;
+    gap: 10px;
+    font-weight: bold;
+    border: 3px solid #ffffff4d;
+    outline: none;
+    overflow: hidden;
+    font-size: 15px;
+    cursor: pointer;
+  }
+  
+  .icon {
+    width: 24px;
+    height: 24px;
+    transition: all 0.3s ease-in-out;
+  }
+  
+  
+  
+  

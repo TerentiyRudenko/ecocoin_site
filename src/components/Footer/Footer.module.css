@@ -1,0 +1,180 @@
+/* Footer.module.css */
+.footer {
+    text-align: center;
+    padding: 20px;
+    background: #121212;
+    color: #fff;
+    padding-top: 60px;
+  }
+  
+  .wrapper {
+    display: inline-flex;
+    list-style: none;
+    height: 120px;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    justify-content: center;
+  }
+  
+  .icon {
+    position: relative;
+    background: #fff;
+    border-radius: 50%;
+    margin: 10px;
+    width: 50px;
+    height: 50px;
+    font-size: 18px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  }
+  
+  .tooltip {
+    position: absolute;
+    top: 0;
+    font-size: 14px;
+    background: #fff;
+    color: #fff;
+    padding: 5px 8px;
+    border-radius: 5px;
+    box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  }
+  
+  .tooltip::before {
+    position: absolute;
+    content: "";
+    height: 8px;
+    width: 8px;
+    background: #fff;
+    bottom: -3px;
+    left: 50%;
+    transform: translate(-50%) rotate(45deg);
+    transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  }
+  
+  .icon:hover .tooltip {
+    top: -45px;
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
+  
+  .icon:hover span,
+  .icon:hover .tooltip {
+    text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.1);
+  }
+  
+  .instagram:hover,
+  .instagram:hover .tooltip,
+  .instagram:hover .tooltip::before {
+    background: #e4405f;
+    color: #fff;
+  }
+
+  .svgIcon {
+    color: #121212;
+    height: 25px;
+    transition-duration: 1.5s;
+  }
+  
+  /* Адаптация для мобильных */
+  @media (max-width: 480px) {
+    .wrapper {
+      height: auto;
+      flex-wrap: wrap;
+      padding: 20px 0;
+    }
+    
+    .icon {
+      margin: 8px;
+      width: 45px;
+      height: 45px;
+    }
+  }
+
+  /* Добавьте эти стили к существующим */
+.telegram:hover,
+.telegram:hover .tooltip,
+.telegram:hover .tooltip::before {
+  background: #0088cc;
+  color: #fff;
+}
+
+.x:hover,
+.x:hover .tooltip,
+.x:hover .tooltip::before {
+  background: #000000;
+  color: #fff;
+}
+
+.svgIcon:hover {
+    fill: #fff;
+    transition-duration: 1.5s;
+}
+
+.instagram:hover,
+.instagram:hover .tooltip,
+.instagram:hover .tooltip::before {
+  background: #e4405f;
+  color: #fff;
+}
+
+@keyframes gradient {
+    0% {
+        color: #e4405f;
+    }
+    10% {
+        color: #e4550f;
+    }
+    20% {
+        color: #e4600f;
+    }
+    30% {
+        color: #e4800f;
+    }
+    40% {
+        color: #e4d00f;
+    }
+    50% {
+        color: #e4700f;
+    }
+    60% {
+        color: #e4650f;
+    }
+    70% {
+        color: #e4405f;
+    }
+    80% {
+        color: #e4405f;
+    }
+    90% {
+        color: #e4550f;
+    }
+    100% {
+        color: #e4405f;
+    }
+}
+
+.followText {
+    font-size: 20px;
+    margin-top: 10px;
+    text-align: center;
+    font-weight: bold;
+    animation: gradient 8s infinite ease-in-out;
+    text-shadow: 0 0 8px rgba(228, 64, 95, 0.5);
+    transition: all 0.3s ease;
+}
+
+/* Дополнительные стили для лучшего отображения */
+.followText:hover {
+    animation-play-state: paused;
+    text-shadow: 0 0 12px rgba(228, 64, 95, 0.8);
+}

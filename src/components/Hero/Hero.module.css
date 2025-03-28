@@ -1,0 +1,281 @@
+.hero {
+    text-align: center;
+    background: #121212;
+    color: #d4ff7f;
+    padding: 100px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100vw;
+    box-sizing: border-box;
+    padding: 100px 2rem;
+    margin: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+  }
+  
+  .buttonContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+    margin: 30px auto 0;
+    width: fit-content;
+  }
+  
+  .button {
+    background: #46a046;
+    color: black;
+    border: none;
+    padding: 12px 24px;
+    cursor: pointer;
+    transition: 0.3s;
+    display: inline-flex;
+    align-items: center;
+    border-radius: 30px;
+    width: 200px;
+    justify-content: center;
+  }
+  
+  .button:hover {
+    background: #3b8b3b;
+    transform: translateY(-4px);
+  }
+  
+  .buttonWithIcon {
+    composes: button;
+    gap: 8px;
+    animation: pulse 2s infinite;
+  }
+  
+  .svgIcon {
+    fill: currentColor;
+    height: 25px;
+    transition-duration: 1.5s;
+  }
+  
+  .button:hover .svgIcon {
+    transform: rotate(250deg);
+    transition-duration: 1.5s;
+  }
+  
+  .loginWithTelegram {
+    background: #0088cc;
+    color: black;
+    font-family: Arial, Helvetica, sans-serif;
+    border: none;
+    padding: 12px 24px;
+    cursor: pointer;
+    transition: 0.3s;
+    display: inline-flex;
+    align-items: center;
+    border-radius: 30px;
+    gap: 8px;
+    width: 200px;
+    justify-content: center;
+  }
+  
+  .loginWithTelegram:hover {
+    background: #0077b3;
+    transform: translateY(-4px);
+  }
+  
+  /* Анимация подсветки */
+  @keyframes highlight {
+    0% {
+      box-shadow: 0 0 0 0 rgba(180, 255, 160, 0);
+    }
+    50% {
+      box-shadow: 0 0 30px 10px rgba(180, 255, 160, 0.4);
+    }
+    100% {
+      box-shadow: 0 0 0 0 rgba(180, 255, 160, 0);
+    }
+  }
+  
+  .highlight {
+    animation: highlight 2s ease-out;
+    border-radius: 10px;
+  }
+  
+  /* Анимация пульсации кнопки */
+  @keyframes pulse {
+    0% { transform: translateY(-4px) scale(1); }
+    50% { transform: translateY(-4px) scale(1.05); }
+    100% { transform: translateY(-4px) scale(1); }
+  }
+  
+  .buttonWithIcon:hover {
+    transform: translateY(-4px) scale(1.05);
+    box-shadow: 0 0 30px 10px rgba(180, 255, 160, 0.4);
+  }
+
+  /* Добавьте эти стили */
+@keyframes journeyPulse {
+    0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(70, 160, 70, 0.7); }
+    50% { transform: scale(1.05); box-shadow: 0 0 20px 10px rgba(70, 160, 70, 0.4); }
+    100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(70, 160, 70, 0); }
+  }
+  
+  .journeyButton {
+    animation: journeyPulse 3s infinite;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .journeyButton::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+      to bottom right,
+      transparent,
+      transparent,
+      transparent,
+      rgba(255, 255, 255, 0.3),
+      transparent,
+      transparent
+    );
+    transform: rotate(30deg);
+    animation: shine 3s infinite;
+  }
+  
+  @keyframes shine {
+    0% { left: -50%; }
+    20% { left: 100%; }
+    100% { left: 100%; }
+  }
+
+  /* Анимация подсветки токеномики */
+@keyframes tokenomicsGlow {
+    0% {
+      box-shadow: 0 0 10px 0 rgba(0, 136, 204, 0.5);
+      border: 1px solid rgba(0, 136, 204, 0.3);
+    }
+    50% {
+      box-shadow: 0 0 30px 10px rgba(0, 136, 204, 0.8);
+      border: 1px solid rgba(0, 136, 204, 0.6);
+    }
+    100% {
+      box-shadow: 0 0 10px 0 rgba(0, 136, 204, 0.5);
+      border: 1px solid rgba(0, 136, 204, 0.3);
+    }
+  }
+  
+  .tokenomicsHighlight {
+    animation: tokenomicsGlow 3s ease-in-out;
+    position: relative;
+  }
+  
+  .tokenomicsHighlight::before {
+    content: '';
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    right: -5px;
+    bottom: -5px;
+    border-radius: 15px;
+    background: linear-gradient(
+      45deg,
+      rgba(0, 136, 204, 0.2),
+      rgba(0, 204, 153, 0.2),
+      rgba(0, 136, 204, 0.2)
+    );
+    z-index: -1;
+    animation: gradientRotate 6s linear infinite;
+  }
+  
+  @keyframes gradientRotate {
+    0% { filter: hue-rotate(0deg); }
+    100% { filter: hue-rotate(360deg); }
+  }
+  
+  /* Анимация для NFT секции */
+  @keyframes nftFlash {
+    0% { background-color: rgba(180, 255, 160, 0); }
+    20% { background-color: rgba(180, 255, 160, 0.3); }
+    100% { background-color: rgba(180, 255, 160, 0); }
+  }
+  
+  .sectionFlash {
+    animation: nftFlash 2s ease-out;
+  }
+
+  @keyframes ecocoin_gradient {
+    0% {
+        color: #46a046; /* Темно-зеленый */
+    }
+    20% {
+        color: #5cb85c; /* Сочный зеленый */
+    }
+    40% {
+        color: #8bc34a; /* Светло-зеленый */
+    }
+    60% {
+        color: #cddc39; /* Лаймовый */
+    }
+    80% {
+        color: #d4ff7f; /* Светлый эко-зеленый */
+    }
+    100% {
+        color: #46a046; /* Возврат к темно-зеленому */
+    }
+}
+
+.ecocoinText {
+    animation: ecocoin_gradient 3s ease-in-out infinite;
+    background: linear-gradient(45deg, #46a046, #8bc34a, #d4ff7f, #8bc34a, #46a046);
+    -webkit-background-clip: text;
+    background-clip: text;
+    font-weight: bold;
+    text-shadow: 0 0 10px rgba(70, 160, 70, 0.3);
+    background-size: 200% 200%;
+    animation: 
+        ecocoin_gradient 4s ease infinite,
+        gradientBG 6s ease infinite;
+}
+
+@keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.greetingMessage {
+    font-family: 'Inconsolata', monospace, sans-serif;
+}
+
+.messageUnderGreeting {
+    font-family: 'Courier New', Courier, monospace;
+}
+
+/* Анимация подсветки */
+@keyframes highlight-pulse {
+    0% {
+      box-shadow: 0 0 0 0 rgba(70, 160, 70, 0.3);
+      border-color: rgba(70, 160, 70, 0);
+    }
+    50% {
+      box-shadow: 0 0 30px 15px rgba(70, 160, 70, 0.5);
+      border-color: rgba(70, 160, 70, 0.7);
+    }
+    100% {
+      box-shadow: 0 0 0 0 rgba(70, 160, 70, 0.3);
+      border-color: rgba(70, 160, 70, 0);
+    }
+  }
+  
+  .highlight {
+    animation: highlight-pulse 2s ease-out;
+    position: relative;
+    border: 2px solid transparent;
+  }
+  
+  /* Специфичные стили для героя */
+  #hero-section.highlight {
+    background: rgba(70, 160, 70, 0.1);
+  }
