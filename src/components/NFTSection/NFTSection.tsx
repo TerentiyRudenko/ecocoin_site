@@ -1,10 +1,11 @@
 import React from 'react';
-import styles from './NFTSection.module.css';
-import sectionStyles from '../Sections/Sections.module.css';
+import styles from './NFTSection.module.css';;
+import AnimatedSection from '../AnimatedSection/AnimatedSection';
 
 const NFTSection = () => {
   return (
-    <section id="nft-section" className={styles.nft}>
+      <section id="nft-section" className={styles.nft}>
+        <AnimatedSection id="nft-section" animationType="nft" className={styles.section}>
       <h2>How does NFT Harvest work?</h2>
       <div className={styles.cards}>
         {['Seed', 'Sprout', 'Mature Plant'].map((stage, idx) => (
@@ -15,6 +16,7 @@ const NFTSection = () => {
           </div>
         ))}
       </div>
+      </AnimatedSection>
     </section>
   );
 };

@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './Hero.module.css';
-
+import AnimatedSection from '../AnimatedSection/AnimatedSection';
 
 const scrollJourney = async () => {
   const sections = [
@@ -39,7 +39,8 @@ const scrollJourney = async () => {
 
 const Hero = () => {
   return (
-    <section id="hero" className={styles.hero}>
+      <section id="hero" className={styles.hero}>
+        <AnimatedSection id="hero-section" animationType="hero" className={styles.hero}>
       <h1 className={styles.greetingMessage}>Welcome to <span className={styles.ecocoinText}>EcoCoin</span></h1>
       <p className={styles.messageUnderGreeting}>Enter the world of blockchain farming with NFT crops.</p>
       
@@ -58,6 +59,7 @@ const Hero = () => {
           Login with Telegram
         </button>
       </div>
+      </AnimatedSection>
     </section>
   );
 };

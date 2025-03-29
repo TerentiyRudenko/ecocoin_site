@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './OurProjectsSection.module.css'
 import lunarAliensImage from './LunarAliens_photo.jpg'; // Укажите правильный путь к изображению
-
+import AnimatedSection from '../AnimatedSection/AnimatedSection';
 
 const OurProjectsSection: React.FC = () => {
   const project = {
@@ -14,6 +14,7 @@ const OurProjectsSection: React.FC = () => {
 
   return (
     <section id="projects-section" className={styles.section}>
+        <AnimatedSection id="projects-section" animationType="projects" className={styles.container}>
       <div className={styles.container}>
         <h2 className={styles.sectionTitle}>Our Projects</h2>
         <p className={styles.sectionSubtitle}>This list will be continued</p>
@@ -52,6 +53,7 @@ const OurProjectsSection: React.FC = () => {
           </div>
         </div>
       </div>
+      </AnimatedSection>
     </section>
   );
 };

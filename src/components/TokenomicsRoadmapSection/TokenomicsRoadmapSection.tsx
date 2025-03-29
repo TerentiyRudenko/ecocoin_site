@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './TokenomicsRoadmapSection.module.css';
 import defaultBg from './ecocoin_photo_site.jpg'; // Укажите правильный путь
-
+import AnimatedSection from '../AnimatedSection/AnimatedSection';
 
 interface TokenomicsRoadmapSectionProps {
   customBackground?: string;
@@ -15,13 +15,13 @@ const TokenomicsRoadmapSection: React.FC<TokenomicsRoadmapSectionProps> = ({
   const backgroundImage = customBackground || defaultBg;
 
   return (
-    <section id="tokenomics-section" className={styles.section}>
+      <section id="tokenomics-section" className={styles.section}>
       {/* Размытый фон */}
       <div 
         className={styles.backgroundImage} 
         style={{
-          backgroundImage: `url(${backgroundImage})`,
-          filter: `blur(${blurIntensity}px)`
+            backgroundImage: `url(${backgroundImage})`,
+            filter: `blur(${blurIntensity}px)`
         }}
       />
       
@@ -53,8 +53,8 @@ interface SocialLinkProps {
 
 const SocialLink: React.FC<SocialLinkProps> = ({ platform }) => {
   const platformData = {
-    twitter: { url: 'https://twitter.com', label: 'Twitter' },
-    discord: { url: 'https://discord.com', label: 'Discord' },
+    twitter: { url: 'https://twitter.com', label: 'X' },
+    discord: { url: 'https://instagram.com', label: 'Instagram' },
     telegram: { url: 'https://t.me', label: 'Telegram' }
   };
 

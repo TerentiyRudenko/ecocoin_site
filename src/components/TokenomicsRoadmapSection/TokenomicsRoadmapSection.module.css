@@ -144,3 +144,7 @@
   .tokenomics-section {
     max-width: fit-content;
   }
+
+  .animateSection {
+    opacity: 1;
+  }

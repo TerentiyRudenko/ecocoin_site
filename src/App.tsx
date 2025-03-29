@@ -5,6 +5,7 @@ import NFTSection from './components/NFTSection/NFTSection';
 import OurProjectsSection from './components/OurProjectsSection/OurProjectsSection';
 import TokenomicsRoadmapSection from './components/TokenomicsRoadmapSection/TokenomicsRoadmapSection';
 import Footer from './components/Footer/Footer';
+import AnimatedSection from './components/AnimatedSection/AnimatedSection';
 
 const App: React.FC = () => {
   useEffect(() => {
