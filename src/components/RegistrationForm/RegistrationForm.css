@@ -1,0 +1,268 @@
+/* RegistrationForm.css */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.9);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1000;
+  }
+  
+  .overlay:not(.closing) {
+    opacity: 1;
+    visibility: visible;
+  }
+  
+  .registration-form-container {
+    width: 90%;
+    max-width: 480px;
+    position: relative;
+    border-radius: 20px;
+    padding: 2px;
+    background: linear-gradient(135deg, #2AABEE, #9945FF, #14F195);
+    background-size: 200% 200%;
+    animation: gradientBorder 6s linear infinite;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    transform: scale(0.9);
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  @keyframes gradientBorder {
+    0%, 100% {
+      background-position: 0% 50%;
+      box-shadow: 0 0 20px rgba(42, 171, 238, 0.5);
+    }
+    25% {
+      background-position: 50% 100%;
+      box-shadow: 0 0 20px rgba(153, 69, 255, 0.5);
+    }
+    50% {
+      background-position: 100% 50%;
+      box-shadow: 0 0 20px rgba(20, 241, 149, 0.5);
+    }
+    75% {
+      background-position: 50% 0%;
+      box-shadow: 0 0 20px rgba(153, 69, 255, 0.5);
+    }
+  }
+  
+  .overlay:not(.closing) .registration-form-container {
+    transform: scale(1);
+    opacity: 1;
+  }
+  
+  .registration-form {
+    background: #07182E;
+    border-radius: 18px;
+    padding: 2.5rem;
+    position: relative;
+    z-index: 2;
+    width: 83%;
+    height: 100%;
+    overflow: hidden;
+  }
+  
+  .registration-form::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+      to bottom right,
+      transparent,
+      transparent,
+      transparent,
+      rgba(255, 255, 255, 0.3),
+      transparent,
+      transparent
+    );
+    z-index: -1;
+    content: '';
+    transition: all 0.2s linear;
+    overflow: hidden;
+  }
+  
+  @keyframes rotBGimg {
+    from {
+      transform: rotate(0deg);
+    }
+  
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  
+  @keyframes rotateBorder {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  
+  .close-button {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    border-radius: 50%;
+    padding: 0.5rem;
+    cursor: pointer;
+    color: #94a3b8;
+    transition: all 0.3s ease;
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    backdrop-filter: blur(5px);
+  }
+  
+  .close-button:hover {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.2);
+    transform: rotate(90deg);
+  }
+  
+  .close-button svg {
+    width: 20px;
+    height: 20px;
+  }
+  
+  h2 {
+    text-align: center;
+    color: #fff;
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+    font-weight: 700;
+    background: linear-gradient(90deg, #fff, #94a3b8);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  
+  .subtitle {
+    text-align: center;
+    color: #94a3b8;
+    margin-bottom: 2rem;
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+  
+  .auth-methods {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+  
+  .auth-button {
+    padding: 1.2rem;
+    border: none;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: white;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  }
+  
+  .auth-button::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      to right,
+      rgba(255, 255, 255, 0.1) 0%,
+      rgba(255, 255, 255, 0.3) 100%
+    );
+    transform: translateX(-100%);
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: -1;
+  }
+  
+  .auth-button:hover::after {
+    transform: translateX(0);
+  }
+  
+  .auth-button.telegram {
+    background: linear-gradient(135deg, #2AABEE, #229ED9);
+  }
+  
+  .auth-button.solana {
+    background: linear-gradient(135deg, #9945FF, #14F195);
+  }
+  
+  .auth-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+  }
+  
+  .auth-button:active {
+    transform: translateY(1px);
+  }
+  
+  .auth-icon {
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+  }
+  
+  .disclaimer {
+    text-align: center;
+    color: #64748b;
+    font-size: 0.75rem;
+    line-height: 1.5;
+    max-width: 300px;
+    margin: 0 auto;
+  }
+  
+  .disclaimer a {
+    color: #94a3b8;
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+  
+  .disclaimer a:hover {
+    color: #fff;
+  }
+  
+  @media (max-width: 480px) {
+    .registration-form {
+      padding: 1.8rem;
+    }
+    
+    .auth-button {
+      font-size: 0.95rem;
+      padding: 1.1rem;
+    }
+    
+    h2 {
+      font-size: 1.8rem;
+    }
+    
+    .close-button {
+      top: 1rem;
+      right: 1rem;
+    }
+  }

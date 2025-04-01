@@ -1,0 +1,33 @@
+.typingContainer {
+    display: inline-block;
+    position: relative;
+    line-height: 1.2;
+  }
+  
+  .text {
+    position: relative;
+    display: inline-block;
+    white-space: nowrap;
+  }
+  
+  .cursor {
+    position: absolute;
+    right: -0.35em;
+    width: 2px;
+    opacity: 1;
+    transition: opacity 0.3s;
+  }
+  
+  .cursor.typing {
+    animation: none;
+    opacity: 1;
+  }
+  
+  .cursor.blink {
+    animation: blink 1s infinite;
+  }
+  
+  @keyframes blink {
+    0%, 100% { opacity: 0; }
+    50% { opacity: 1; }
+  }

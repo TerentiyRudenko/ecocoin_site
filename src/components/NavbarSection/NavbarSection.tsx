@@ -8,9 +8,10 @@ const NavbarSection: React.FC = () => {
   const [isMobile, setIsMobile] = useState(false);
 
   const sections = [
+    { id: 'login-form', label: 'Play' },
     { id: 'hero', label: 'Home' },
     { id: 'nft-section', label: 'NFT Farming' },
-    { id: 'projects-section', label: 'Our Projects' },
+    { id: 'projects', label: 'Our Projects' },
     { id: 'tokenomics-section', label: 'Tokenomics' }
   ];
 

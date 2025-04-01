@@ -73,13 +73,23 @@
     align-items: center;
     border-radius: 30px;
     gap: 8px;
-    width: 200px;
+    width: 250px;
     justify-content: center;
   }
   
   .loginWithTelegram:hover {
     background: #0077b3;
     transform: translateY(-4px);
+  }
+
+  .svgTelegramIcon {
+    opacity: 0.8;
+  }
+
+  .loginWithTelegram:hover .svgTelegramIcon {
+    transform: rotate(360deg);
+    transition-duration: 1.5s;
+    opacity: 1;
   }
   
   /* Анимация подсветки */
@@ -284,3 +294,61 @@
   .heroAnimation .hero-section {
     opacity: 1;
   }
+
+  .greetingMessage {
+    min-height: 3.5rem; /* Фиксированная высота для избежания прыжков */
+  }
+  
+  .messageUnderGreeting {
+    min-height: 2rem; /* Фиксированная высота для избежания прыжков */
+    margin-top: 1rem;
+  }
+
+  /* Добавляем в Hero.module.css */
+
+.buttonContainer {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+.joinNowButton {
+  padding: 1rem 2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: white;
+  background: linear-gradient(135deg, #4f46e5, #7c3aed);
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(79, 70, 229, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.joinNowButton:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(79, 70, 229, 0.4);
+  background: linear-gradient(135deg, #5e56e8, #8b4af0);
+}
+
+.joinNowButton:active {
+  transform: translateY(0);
+}
+
+/* Для мобильных устройств */
+@media (max-width: 768px) {
+  .buttonContainer {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .joinNowButton {
+    width: 100%;
+    max-width: 250px;
+  }
+}

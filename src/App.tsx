@@ -1,13 +1,16 @@
-import React, { useEffect } from 'react';
+// App.tsx
+import React, { useEffect, useState } from 'react';
+import RegistrationForm from './components/RegistrationForm/RegistrationForm';
 import NavbarSection from './components/NavbarSection/NavbarSection';
 import Hero from './components/Hero/Hero';
 import NFTSection from './components/NFTSection/NFTSection';
 import OurProjectsSection from './components/OurProjectsSection/OurProjectsSection';
 import TokenomicsRoadmapSection from './components/TokenomicsRoadmapSection/TokenomicsRoadmapSection';
 import Footer from './components/Footer/Footer';
-import AnimatedSection from './components/AnimatedSection/AnimatedSection';
 
 const App: React.FC = () => {
+  const [isRegistrationOpen, setIsRegistrationOpen] = useState(false);
+  
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth > 768) {
@@ -22,11 +25,18 @@ const App: React.FC = () => {
   return (
     <>
       <NavbarSection />
-      <Hero />
+      
+      <Hero onOpenRegistration={() => setIsRegistrationOpen(true)} />
+
       <NFTSection />
-      <OurProjectsSection  />
-      <TokenomicsRoadmapSection  />
+      <OurProjectsSection />
+      <TokenomicsRoadmapSection />
       <Footer />
+
+      <RegistrationForm 
+        isOpen={isRegistrationOpen}
+        onClose={() => setIsRegistrationOpen(false)}
+      />
     </>
   );
 };
