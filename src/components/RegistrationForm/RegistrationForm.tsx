@@ -19,8 +19,9 @@ const RegistrationForm = ({ isOpen, onClose }: RegistrationFormProps) => {
   };
 
   const handleTelegramClick = () => {
-    console.log('Telegram login clicked');
-    // Здесь будет логика авторизации через Telegram
+    // URL вашего Telegram бота или deeplink
+    const telegramUrl = 'https://t.me/ecocoin_login_bot';
+    window.open(telegramUrl, '_blank');
   };
 
   const handleSolanaClick = () => {
