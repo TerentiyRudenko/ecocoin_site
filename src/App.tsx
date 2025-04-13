@@ -1,15 +1,97 @@
 import React, { useEffect, useState } from 'react';
 import RegistrationForm from './components/RegistrationForm/RegistrationForm';
 import NavbarSection from './components/NavbarSection/NavbarSection';
+import GritClaim from './components/GritClaim/GritClaim';
 import Hero from './components/Hero/Hero';
 import NFTSection from './components/NFTSection/NFTSection';
 import OurProjectsSection from './components/OurProjectsSection/OurProjectsSection';
 import TokenomicsRoadmapSection from './components/TokenomicsRoadmapSection/TokenomicsRoadmapSection';
 import Footer from './components/Footer/Footer';
+import './App.css';
+
+interface AuthData {
+  tg_id: string;
+  tg_username: string;
+}
 
 const App: React.FC = () => {
   const [isRegistrationOpen, setIsRegistrationOpen] = useState(false);
-  const [authData, setAuthData] = useState<{ id: string; username: string } | null>(null);
+  const [authData, setAuthData] = useState<AuthData | null>(null);
+  const [authToken, setAuthToken] = useState<string | null>(null);
+
+  const generateSessionId = () => {
+    return crypto.randomUUID?.() || Math.random().toString(36).substr(2, 9);
+  };
+
+  const checkAuthStatus = async (token: string) => {
+    try {
+      const response = await fetch(`https://localhost:4000/auth-status?token=${token}`, {
+        method: 'GET',
+        credentials: 'include',
+      });
+
+      const result = await response.json();
+      if (result.status === 'authenticated') {
+        setAuthData({
+          tg_id: result.tg_id,
+          tg_username: result.tg_username
+        });
+        return true;
+      }
+      return false;
+    } catch (err) {
+      console.error('Auth status check error:', err);
+      return false;
+    }
+  };
+
+  const handleTelegramAuth = async () => {
+    const sessionId = generateSessionId();
+    try {
+      const response = await fetch('https://localhost:4000/init-auth', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userId: sessionId }),
+      });
+
+      const { url, token } = await response.json();
+      setAuthToken(token);
+      window.open(url, '_blank');
+
+      // Запускаем проверку статуса
+      const interval = setInterval(async () => {
+        if (await checkAuthStatus(token)) {
+          clearInterval(interval);
+        }
+      }, 2000);
+
+    } catch (error) {
+      console.error('Auth initialization error:', error);
+      alert('Ошибка подключения к Telegram');
+    }
+  };
+
+  const handleStartCommand = async () => {
+    if (!authData) {
+      alert('Пожалуйста, авторизуйтесь перед отправкой запроса.');
+      return;
+    }
+
+    try {
+      const response = await fetch('https://localhost:4000/start-command', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ tg_id: authData.tg_id }),
+      });
+
+      const data = await response.json();
+      console.log('Server response:', data);
+      alert('Запрос успешно отправлен! Проверьте Telegram.');
+    } catch (error) {
+      console.error('Request error:', error);
+      alert('Произошла ошибка при отправке запроса.');
+    }
+  };
 
   useEffect(() => {
     const handleResize = () => {
@@ -23,23 +105,33 @@ const App: React.FC = () => {
   }, []);
 
   return (
-    <>
+    <div className="app-container">
       <NavbarSection />
-      <Hero onOpenRegistration={() => setIsRegistrationOpen(true)} />
-      <NFTSection />
-      <OurProjectsSection />
-      <TokenomicsRoadmapSection />
+      
+      <div className="content-wrapper">
+        <GritClaim />
+        <Hero onOpenRegistration={() => setIsRegistrationOpen(true)} />
+        
+        {authData && (
+          <div className="auth-success">
+            <h2>Добро пожаловать, {authData.tg_username}!</h2>
+            <button onClick={handleStartCommand}>Отправить запрос в Telegram</button>
+          </div>
+        )}
+
+        <NFTSection />
+        <OurProjectsSection />
+        <TokenomicsRoadmapSection />
+      </div>
+      
       <Footer />
 
       <RegistrationForm
         isOpen={isRegistrationOpen}
         onClose={() => setIsRegistrationOpen(false)}
-        onAuthSuccess={(userData) => {
-          setAuthData(userData);
-          console.log('Authentication successful:', userData); // Логируем успешную авторизацию
-        }}
+        onAuthSuccess={handleTelegramAuth}
       />
-    </>
+    </div>
   );
 };
 

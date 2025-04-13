@@ -4,9 +4,10 @@ import './RegistrationForm.css';
 interface RegistrationFormProps {
   isOpen: boolean;
   onClose: () => void;
+  onAuthSuccess: (userData: { id: string; username: string }) => void; // Убрали deviceId из интерфейса
 }
 
-const RegistrationForm = ({ isOpen, onClose }: RegistrationFormProps) => {
+const RegistrationForm = ({ isOpen, onClose, onAuthSuccess }: RegistrationFormProps) => {
   const [isClosing, setIsClosing] = useState(false);
 
   useEffect(() => {
@@ -18,11 +19,40 @@ const RegistrationForm = ({ isOpen, onClose }: RegistrationFormProps) => {
     setTimeout(onClose, 300);
   };
 
-  const handleTelegramClick = () => {
-    // URL вашего Telegram бота или deeplink
-    const telegramUrl = 'https://t.me/ecocoin_login_bot';
-    window.open(telegramUrl, '_blank');
-  };
+  // RegistrationForm.tsx
+// RegistrationForm.tsx (клиентская часть)
+const handleTelegramClick = async () => {
+  try {
+    // Инициализируем процесс аутентификации
+    const response = await fetch('https://localhost:4000/init-auth', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ userId: generateSessionId() })
+    });
+
+    const { url } = await response.json();
+    window.open(url, '_blank');
+
+    // Запускаем проверку статуса
+    const checkStatus = setInterval(async () => {
+      const statusResponse = await fetch(`https://localhost:4000/auth-status?token=${token}`);
+      const { status } = await statusResponse.json();
+      
+      if (status === 'authenticated') {
+        clearInterval(checkStatus);
+        onAuthSuccess();
+      }
+    }, 2000);
+
+  } catch (error) {
+    console.error('Auth error:', error);
+    alert('Ошибка подключения к Telegram');
+  }
+};
+
+const generateSessionId = () => {
+  return crypto.randomUUID?.() || Math.random().toString(36).substr(2, 9);
+};
 
   const handleSolanaClick = () => {
     console.log('Solana wallet connect clicked');

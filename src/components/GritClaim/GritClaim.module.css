@@ -1,0 +1,282 @@
+/* 🔥 Основные стили с "вау"-эффектом */
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 5rem;
+  opacity: 1;
+  position: relative;
+  margin-top: 20px;
+  margin-bottom: 40px;
+  z-index: 1;
+  background: #435678;
+  animation: container-animation 0.8s ease forwards;
+  animation-delay: 0.2s;
+}
+
+@keyframes container-animation {
+  0% {
+    opacity: 1;
+    transform: translateX(-100%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0%);
+  }
+}
+
+.container.animateIn {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.card {
+  opacity: 0;
+  position: relative;
+  width: 340px;
+  background: linear-gradient(145deg, #1a1a2e, #16213e);
+  border-radius: 24px;
+  padding: 2.5rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+  z-index: 1;
+  transition: all 0.4s ease;
+  animation: card-animation 0.8s ease forwards;
+  animation-delay: 1s;
+}
+
+@keyframes card-animation {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 40px rgba(0, 180, 216, 0.3);
+}
+
+.glow {
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(0, 180, 216, 0.1) 0%, transparent 60%);
+  opacity: 0;
+  transition: opacity 0.6s ease;
+  z-index: -1;
+}
+
+.card:hover .glow {
+  opacity: 1;
+}
+
+.content {
+  text-align: center;
+  position: relative;
+  z-index: 2;
+}
+
+.title {
+  font-family: 'Inter', sans-serif;
+  margin-bottom: 2rem;
+  line-height: 1.4;
+}
+
+.token {
+  display: block;
+  font-size: 2.2rem;
+  font-weight: 700;
+  background: linear-gradient(45deg, #00b4d8, #90e0ef, #00b4d8);
+
+  background-clip: text;
+  background-size: 200% auto;
+  animation: gradientShift 4s ease infinite;
+}
+
+.char1 {
+  animation: token-text-animate 3s;
+  display: inline-block;
+}
+
+.char2 {
+  animation: token-text-animate 3.4s;
+  display: inline-block;
+}
+
+.char3 {
+  animation: token-text-animate 3.8s;
+  display: inline-block;
+}
+
+.char4 {
+  animation: token-text-animate 4s;
+  display: inline-block;
+}
+
+.char5 {
+  animation: token-text-animate 4.4s;
+  display: inline-block;
+}
+
+@keyframes token-text-animate {
+  0% {
+    opacity: 0;
+    transform: translateX(-20vw);
+   }
+  50% {
+    opacity: 0;
+    transform: translateX(0vw);
+    filter: blur(0.5rem) brightness(0.5) contrast(0.5);
+    background-clip: text;
+    background-size: 200% auto;
+    background: #90e0ef;
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0vw);
+  }
+}
+
+.message {
+  display: block;
+  font-size: 1.3rem;
+  color: #e5e5e5;
+  font-weight: 300;
+  margin-top: 0.5rem;
+}
+
+/* 💥 Кнопка с эффектом частиц */
+.claimButton {
+  position: relative;
+  background: linear-gradient(45deg, #00b4d8, #90e0ef);
+  border: none;
+  padding: 1rem 2.5rem;
+  border-radius: 50px;
+  color: #1a1a2e;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  overflow: hidden;
+  transition: all 0.4s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  width: 100%;
+  box-shadow: 0 5px 20px rgba(0, 180, 216, 0.4);
+  z-index: 1;
+  animation: claim-button-animation 1.5s infinite;
+}
+
+@keyframes claim-button-animation {
+  0% {
+    box-shadow: 0 5px 20px rgba(0, 180, 216, 0.4);
+  }
+  50% {
+    box-shadow: 0 10px 30px rgba(0, 180, 216, 0.6);
+  }
+  100% {
+    box-shadow: 0 5px 20px rgba(0, 180, 216, 0.4);
+  }
+  
+}
+
+.claimButton:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 30px rgba(0, 180, 216, 0.6);
+}
+
+.claimButton.hoverEffect {
+  animation: pulse 1.5s infinite;
+}
+
+.buttonShine {
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    to right,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.4) 100%
+  );
+  transform: skewX(-25deg);
+  transition: all 0.8s ease;
+}
+
+.claimButton:hover .buttonShine {
+  left: 150%;
+}
+
+/* 💫 Эффект частиц при клике */
+@keyframes particleBurst {
+  0% { transform: scale(1); opacity: 1; }
+  100% { transform: scale(3); opacity: 0; }
+}
+
+.particleBurst::before {
+  content: '';
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 50%;
+  animation: particleBurst 0.8s forwards;
+  top: 50%;
+  left: 50%;
+  margin: -5px 0 0 -5px;
+  z-index: -1;
+}
+
+.particleBurst::after {
+  content: '';
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 50%;
+  animation: particleBurst 0.6s 0.2s forwards;
+  top: 30%;
+  left: 30%;
+  z-index: -1;
+}
+
+/* 🌈 Анимации */
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(0, 180, 216, 0.7); }
+  70% { box-shadow: 0 0 0 15px rgba(0, 180, 216, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(0, 180, 216, 0); }
+}
+
+/* 📱 Адаптивность */
+@media (max-width: 480px) {
+  .card {
+    width: 300px;
+    padding: 2rem;
+  }
+  
+  .token {
+    font-size: 1.8rem;
+  }
+  
+  .message {
+    font-size: 1.1rem;
+  }
+  
+  .claimButton {
+    padding: 0.9rem 2rem;
+    font-size: 1rem;
+  }
+}

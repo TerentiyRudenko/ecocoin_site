@@ -1,7 +1,22 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
+// vite.config.js
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import basicSsl from '@vitejs/plugin-basic-ssl';
 
-// https://vite.dev/config/
 export default defineConfig({
-  plugins: [react()],
-})
+  plugins: [
+    react(), // Добавляем плагин для React
+    basicSsl({
+      /** name of certification */
+      name: 'test',
+      /** custom trust domains */
+      domains: ['*.custom.com'],
+      /** custom certification directory */
+      certDir: '/Users/.../.devServer/cert', // Замените на реальный путь
+    }),
+  ],
+  server: {
+    port: 5173, // Указываем порт явно
+    https: true, // Включаем HTTPS (уже включено через basicSsl, но для ясности)
+  },
+});

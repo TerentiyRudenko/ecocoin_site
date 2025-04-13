@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "start:server": "node server.js",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview"
@@ -12,6 +13,9 @@
   "dependencies": {
     "@supabase/supabase-js": "^2.49.4",
     "@twa-dev/sdk": "^8.0.2",
+    "@vitejs/plugin-basic-ssl": "^2.0.0",
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "telegraf": "^4.16.3"
