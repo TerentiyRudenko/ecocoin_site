@@ -9,6 +9,16 @@ import TokenomicsRoadmapSection from './components/TokenomicsRoadmapSection/Toke
 import Footer from './components/Footer/Footer';
 import './App.css';
 
+import ReactDOM from 'react-dom/client';
+import { WalletContext } from './components/WalletContext/WalletContext';
+
+
+import { WalletAdapterNetwork } from '@solana/wallet-adapter-base';
+import { WalletProvider } from '@solana/wallet-adapter-react';
+import { WalletModalProvider } from '@solana/wallet-adapter-react-ui';
+import { PhantomWalletAdapter, SolflareWalletAdapter } from '@solana/wallet-adapter-wallets';
+import { clusterApiUrl } from '@solana/web3.js';
+
 interface AuthData {
   tg_id: string;
   tg_username: string;
@@ -109,7 +119,11 @@ const App: React.FC = () => {
       <NavbarSection />
       
       <div className="content-wrapper">
+        <React.StrictMode>
+          <WalletContext>
         <GritClaim />
+          </WalletContext>
+        </React.StrictMode>
         <Hero onOpenRegistration={() => setIsRegistrationOpen(true)} />
         
         {authData && (

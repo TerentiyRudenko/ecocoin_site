@@ -280,3 +280,24 @@
     font-size: 1rem;
   }
 }
+
+.walletInfo {
+  margin-top: 1rem;
+  text-align: center;
+  color: #fff;
+  font-size: 0.9rem;
+}
+
+.disconnectButton {
+  background: #ff4d4d;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.disconnectButton:hover {
+  background: #e63939;
+}

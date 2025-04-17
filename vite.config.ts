@@ -19,4 +19,13 @@ export default defineConfig({
     port: 5173, // Указываем порт явно
     https: true, // Включаем HTTPS (уже включено через basicSsl, но для ясности)
   },
+  optimizeDeps: {
+    include: [
+      '@solana/wallet-adapter-base',
+      '@solana/wallet-adapter-react',
+      '@solana/wallet-adapter-react-ui',
+      '@solana/wallet-adapter-wallets',
+      '@solana/web3.js'
+    ]
+  }
 });

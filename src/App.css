@@ -62,3 +62,20 @@
     padding-top: 60px;
   }
 }
+
+.wallet-section {
+  padding: 1rem;
+  background: #f5f5f5;
+  border-radius: 8px;
+  margin: 1rem 0;
+  text-align: center;
+}
+
+.wallet-info {
+  font-size: 0.9rem;
+  color: #333;
+}
+
+.wallet-info p {
+  margin: 0.3rem 0;
+}
