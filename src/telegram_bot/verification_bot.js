@@ -15,6 +15,8 @@ bot.onText(/\/start/, async (msg) => {
   const chatId = msg.chat.id;
   const telegramId = msg.from.id.toString();
 
+  console.log(`Received /start from telegram_id: ${telegramId}`);
+
   try {
     // Проверяем наличие one_time_code для telegram_id
     const { data, error } = await supabase
@@ -24,57 +26,97 @@ bot.onText(/\/start/, async (msg) => {
       .single();
 
     if (error) {
-      console.error('Supabase error:', error);
+      console.error('Supabase select error:', error);
       bot.sendMessage(chatId, 'An error occurred. Please try again later.');
       return;
     }
 
     if (!data || !data.one_time_code) {
       bot.sendMessage(chatId, 'You currently have no verification code.');
+      console.log(`No one_time_code found for telegram_id: ${telegramId}`);
     } else {
       bot.sendMessage(chatId, 'Please enter your verification code.');
+      console.log(`Found one_time_code: ${data.one_time_code} for telegram_id: ${telegramId}`);
+
       // Устанавливаем обработчик следующего сообщения
       bot.once('message', async function handler(response) {
         const enteredCode = response.text.trim().toUpperCase();
+        console.log(`User entered code: ${enteredCode} for telegram_id: ${telegramId}`);
 
-        // Проверяем код
-        const { data: userData, error: fetchError } = await supabase
-          .from('users_login_test')
-          .select('one_time_code')
-          .eq('telegram_id', telegramId)
-          .single();
-
-        if (fetchError) {
-          console.error('Supabase fetch error:', fetchError);
-          bot.sendMessage(chatId, 'An error occurred. Please try again later.');
-          return;
-        }
-
-        if (userData.one_time_code === enteredCode) {
-          // Код правильный: обновляем isVerifiedForCurrentCode и очищаем one_time_code
-          const { error: updateError } = await supabase
+        try {
+          // Проверяем код
+          const { data: userData, error: fetchError } = await supabase
             .from('users_login_test')
-            .update({
-              one_time_code: null,
-              isVerifiedForCurrentCode: true,
-            })
-            .eq('telegram_id', telegramId);
+            .select('one_time_code')
+            .eq('telegram_id', telegramId)
+            .single();
 
-          if (updateError) {
-            console.error('Supabase update error:', updateError);
+          if (fetchError) {
+            console.error('Supabase fetch error:', fetchError);
             bot.sendMessage(chatId, 'An error occurred. Please try again later.');
-          } else {
-            bot.sendMessage(chatId, 'Verification successful!');
+            return;
           }
-        } else {
-          // Код неверный: повторяем запрос
-          bot.sendMessage(chatId, 'Incorrect code. Please try again.');
-          bot.once('message', handler); // Рекурсивно вызываем тот же обработчик
+
+          if (!userData || !userData.one_time_code) {
+            console.error(`No one_time_code found during verification for telegram_id: ${telegramId}`);
+            bot.sendMessage(chatId, 'Your verification code has expired. Please generate a new one.');
+            return;
+          }
+
+          if (userData.one_time_code === enteredCode) {
+            // Код правильный: обновляем isverifiedforcurrentcode и очищаем one_time_code
+            console.log(`Code verified successfully for telegram_id: ${telegramId}`);
+            const { data: updatedData, error: updateError } = await supabase
+              .from('users_login_test')
+              .update({
+                one_time_code: null,
+                isverifiedforcurrentcode: true,
+              })
+              .eq('telegram_id', telegramId)
+              .select();
+
+            if (updateError) {
+              console.error('Supabase update error:', updateError);
+              bot.sendMessage(chatId, 'An error occurred. Please try again later.');
+            } else {
+              console.log(`Updated record for telegram_id: ${telegramId}`, updatedData);
+              bot.sendMessage(chatId, 'Verification successful!');
+
+              // Через 5 секунд сбрасываем isverifiedforcurrentcode в false
+              setTimeout(async () => {
+                try {
+                  const { data: resetData, error: resetError } = await supabase
+                    .from('users_login_test')
+                    .update({
+                      isverifiedforcurrentcode: false,
+                    })
+                    .eq('telegram_id', telegramId)
+                    .select();
+
+                  if (resetError) {
+                    console.error('Supabase reset error:', resetError);
+                  } else {
+                    console.log(`Reset isverifiedforcurrentcode to false for telegram_id: ${telegramId}`, resetData);
+                  }
+                } catch (err) {
+                  console.error('Unexpected error during reset:', err);
+                }
+              }, 5000); // 5 секунд
+            }
+          } else {
+            // Код неверный: повторяем запрос
+            console.log(`Incorrect code entered for telegram_id: ${telegramId}`);
+            bot.sendMessage(chatId, 'Incorrect code. Please try again.');
+            bot.once('message', handler);
+          }
+        } catch (err) {
+          console.error('Unexpected error during code verification:', err);
+          bot.sendMessage(chatId, 'An error occurred. Please try again later.');
         }
       });
     }
   } catch (err) {
-    console.error('Unexpected error:', err);
+    console.error('Unexpected error in /start handler:', err);
     bot.sendMessage(chatId, 'An error occurred. Please try again later.');
   }
 });

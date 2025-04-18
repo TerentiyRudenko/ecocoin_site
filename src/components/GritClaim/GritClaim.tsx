@@ -23,10 +23,33 @@ const GritClaim = () => {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [oneTimeCode, setOneTimeCode] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
+  const [lastCodeGenerationTime, setLastCodeGenerationTime] = useState<number | null>(null);
+  const [isVerified, setIsVerified] = useState<boolean>(false); // Состояние для верификации
   const containerRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const { publicKey, connect, connecting, disconnect } = useWallet();
   const { setVisible } = useWalletModal();
+
+  // Функция для проверки статуса верификации
+  const checkVerificationStatus = async (telegramId: string) => {
+    try {
+      const { data, error } = await supabase
+        .from('users_login_test')
+        .select('isverifiedforcurrentcode')
+        .eq('telegram_id', telegramId)
+        .single();
+
+      if (error) {
+        console.error('Supabase verification check error:', error);
+        return false;
+      }
+
+      return data?.isverifiedforcurrentcode || false;
+    } catch (err) {
+      console.error('Unexpected error during verification check:', err);
+      return false;
+    }
+  };
 
   // Генерация одноразового кода
   const generateOneTimeCode = () => {
@@ -43,19 +66,19 @@ const GritClaim = () => {
         .single();
 
       if (error || !data) {
-        setErrorMessage('Кошелек не найден.');
+        setErrorMessage('Wallet not found.');
         return null;
       }
 
       if (!data.tg_username || !data.tg_id) {
-        setErrorMessage('Данные Telegram отсутствуют.');
+        setErrorMessage('Telegram data is missing.');
         return null;
       }
 
       return data;
     } catch (err) {
       console.error('Unexpected error:', err);
-      setErrorMessage('Ошибка при запросе.');
+      setErrorMessage('An error occurred during the request.');
       return null;
     }
   };
@@ -72,8 +95,12 @@ const GritClaim = () => {
       if (user) {
         setUserData(user);
         setShowConfirmModal(true);
+
+        // Проверяем статус верификации после получения данных пользователя
+        const verified = await checkVerificationStatus(user.tg_id);
+        setIsVerified(verified);
       } else {
-        setErrorMessage('Кошелек не связан с Telegram.');
+        setErrorMessage('Wallet is not linked to Telegram.');
       }
     }
   };
@@ -81,17 +108,26 @@ const GritClaim = () => {
   // Подтверждение Telegram-аккаунта и запись в users_login_test
   const confirmTelegramAccount = async () => {
     if (!publicKey || !userData) return;
-  
+
+    // Проверяем, прошло ли 10 секунд с последней генерации
+    const currentTime = Date.now();
+    if (lastCodeGenerationTime && currentTime - lastCodeGenerationTime < 10000) {
+      const remainingTime = Math.ceil((10000 - (currentTime - lastCodeGenerationTime)) / 1000);
+      setErrorMessage(`Please wait ${remainingTime} seconds before generating a new code.`);
+      return;
+    }
+
     const code = generateOneTimeCode();
     setOneTimeCode(code);
     setCopied(false);
-  
+    setLastCodeGenerationTime(currentTime);
+
     console.log('Upserting data:', {
       username: userData.tg_username,
       telegram_id: userData.tg_id,
       one_time_code: code,
     });
-  
+
     try {
       const { data, error } = await supabase
         .from('users_login_test')
@@ -100,26 +136,30 @@ const GritClaim = () => {
             username: userData.tg_username,
             telegram_id: userData.tg_id,
             one_time_code: code,
+            isverifiedforcurrentcode: false,
           },
           { onConflict: ['telegram_id'] }
         )
-        .select(); // Возвращаем данные для проверки
-  
+        .select();
+
       if (error) {
         console.error('Supabase upsert error:', error);
-        setErrorMessage(`Ошибка при сохранении данных: ${error.message}`);
+        setErrorMessage(`Error saving data: ${error.message}`);
       } else {
         console.log('Data upserted successfully:', data);
         setErrorMessage(null);
+        // Проверяем статус верификации после генерации кода
+        const verified = await checkVerificationStatus(userData.tg_id);
+        setIsVerified(verified);
       }
     } catch (err) {
       console.error('Unexpected error:', err);
-      setErrorMessage('Произошла непредвиденная ошибка.');
+      setErrorMessage('An unexpected error occurred.');
     }
-  
+
     setShowConfirmModal(false);
     setIsClaiming(true);
-  
+
     if (buttonRef.current) {
       buttonRef.current.classList.add(styles.particleBurst);
       setTimeout(() => {
@@ -137,6 +177,26 @@ const GritClaim = () => {
       setTimeout(() => setCopied(false), 2000);
     }
   };
+
+  // Периодический опрос для проверки статуса верификации
+  useEffect(() => {
+    let interval: NodeJS.Timeout | null = null;
+
+    if (userData) {
+      // Проверяем статус верификации каждые 2 секунды
+      interval = setInterval(async () => {
+        const verified = await checkVerificationStatus(userData.tg_id);
+        setIsVerified(verified);
+      }, 2000);
+    }
+
+    // Очистка интервала при размонтировании компонента или изменении userData
+    return () => {
+      if (interval) {
+        clearInterval(interval);
+      }
+    };
+  }, [userData]);
 
   // Автоматическое подключение кошелька
   useEffect(() => {
@@ -207,10 +267,16 @@ const GritClaim = () => {
             </div>
           )}
 
+          {isVerified && (
+            <div className={styles.verifiedMessage}>
+              <p>Verified</p>
+            </div>
+          )}
+
           {oneTimeCode && (
             <div className={styles.codeDisplay}>
               <div className={styles.codeGlow}></div>
-              <p className={styles.codeText}>Your One-time code:</p>
+              <p className={styles.codeText}>Your one-time code:</p>
               <p className={styles.codeValue}>
                 {oneTimeCode.split('').map((char, index) => (
                   <span key={index} style={{ animationDelay: `${index * 0.1}s` }}>
@@ -219,7 +285,7 @@ const GritClaim = () => {
                 ))}
               </p>
               <p className={styles.codeInstruction}>
-                Send this code to our bot for verification{' '}
+                Send this code to our bot{' '}
                 <a href="https://t.me/YourBot" target="_blank" rel="noopener noreferrer" className={styles.telegramLink}>
                   @YourBot
                 </a>{' '}
@@ -230,7 +296,7 @@ const GritClaim = () => {
                   onClick={handleCopyCode}
                   className={`${styles.codeButton} ${copied ? styles.copied : ''}`}
                 >
-                  {copied ? 'Copied!' : 'Copy code'}
+                  {copied ? 'Copied!' : 'Copy Code'}
                 </button>
                 <button onClick={confirmTelegramAccount} className={styles.codeButton}>
                   New Code
@@ -245,7 +311,7 @@ const GritClaim = () => {
       {showConfirmModal && userData && (
         <div className={styles.confirmModal}>
           <div className={styles.modalContent}>
-            <h3 className={styles.modalTitle}>Account verification</h3>
+            <h3 className={styles.modalTitle}>Confirm Account</h3>
             <p className={styles.modalText}>Is this your Telegram account?</p>
             <p className={styles.modalInfo}>
               <strong>Username:</strong> {userData.tg_username}
@@ -255,10 +321,10 @@ const GritClaim = () => {
             </p>
             <div className={styles.modalButtons}>
               <button onClick={confirmTelegramAccount} className={styles.confirmButton}>
-              Yes, this is my account.
+                Yes, this is my account
               </button>
               <button onClick={() => setShowConfirmModal(false)} className={styles.cancelButton}>
-              Cancel
+                Cancel
               </button>
             </div>
           </div>
