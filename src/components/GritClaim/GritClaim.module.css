@@ -94,7 +94,6 @@
   font-size: 2.2rem;
   font-weight: 700;
   background: linear-gradient(45deg, #00b4d8, #90e0ef, #00b4d8);
-
   background-clip: text;
   background-size: 200% auto;
   animation: gradientShift 4s ease infinite;
@@ -129,7 +128,7 @@
   0% {
     opacity: 0;
     transform: translateX(-20vw);
-   }
+  }
   50% {
     opacity: 0;
     transform: translateX(0vw);
@@ -183,7 +182,6 @@
   100% {
     box-shadow: 0 5px 20px rgba(0, 180, 216, 0.4);
   }
-  
 }
 
 .claimButton:hover {
@@ -260,120 +258,305 @@
   100% { box-shadow: 0 0 0 0 rgba(0, 180, 216, 0); }
 }
 
-/* 📱 Адаптивность */
-@media (max-width: 480px) {
-  .card {
-    width: 300px;
-    padding: 2rem;
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
   }
-  
-  .token {
-    font-size: 1.8rem;
-  }
-  
-  .message {
-    font-size: 1.1rem;
-  }
-  
-  .claimButton {
-    padding: 0.9rem 2rem;
-    font-size: 1rem;
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
-.walletInfo {
-  margin-top: 1rem;
-  text-align: center;
-  color: #fff;
+@keyframes codeReveal {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes letterFade {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 🎨 Стили для блока кода */
+.codeDisplay {
+  position: relative;
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background: linear-gradient(145deg, rgba(0, 180, 216, 0.1), rgba(144, 224, 239, 0.1));
+  border-radius: 16px;
+  box-shadow: 0 5px 20px rgba(0, 180, 216, 0.2);
+  animation: slideUp 0.5s ease-out;
+  z-index: 2;
+}
+
+.codeGlow {
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  right: -10px;
+  bottom: -10px;
+  background: radial-gradient(circle, rgba(0, 180, 216, 0.3) 0%, transparent 60%);
+  filter: blur(20px);
+  opacity: 0.4;
+  z-index: -1;
+  animation: pulse 3s infinite ease-in-out;
+}
+
+.codeText {
+  font-size: 1rem;
+  color: #e5e5e5;
+  font-weight: 300;
+  margin-bottom: 0.5rem;
+}
+
+.codeValue {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #00b4d8;
+  letter-spacing: 2px;
+  margin: 0.5rem 0;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  animation: codeReveal 0.5s ease-out;
+}
+
+.codeValue span {
+  display: inline-block;
+  animation: letterFade 0.3s ease-in forwards;
+}
+
+.codeInstruction {
   font-size: 0.9rem;
+  color: #e5e5e5;
+  font-weight: 300;
+  margin-bottom: 1rem;
 }
 
-.disconnectButton {
-  background: #ff4d4d;
+.telegramLink {
+  color: #00b4d8;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.telegramLink:hover {
+  color: #90e0ef;
+}
+
+.codeButtons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.codeButton {
+  position: relative;
+  background: linear-gradient(45deg, #00b4d8, #90e0ef);
   border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 8px;
-  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border-radius: 50px;
+  color: #1a1a2e;
+  font-size: 0.9rem;
+  font-weight: 600;
   cursor: pointer;
-  transition: background 0.3s;
+  transition: all 0.4s ease;
+  box-shadow: 0 5px 15px rgba(0, 180, 216, 0.4);
 }
 
-.disconnectButton:hover {
-  background: #e63939;
-}
-.errorMessage {
-  margin-top: 1rem;
-  color: #ff4d4d;
-  text-align: center;
+.codeButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 180, 216, 0.6);
 }
 
-.linkButton {
-  background: #007bff;
-  border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 8px;
-  color: #fff;
-  cursor: pointer;
-  margin-top: 0.5rem;
-  transition: background 0.3s;
+.copied {
+  background: linear-gradient(45deg, #28a745, #90e0ef);
 }
 
-.linkButton:hover {
-  background: #0056b3;
+.copied:hover {
+  box-shadow: 0 8px 20px rgba(40, 167, 69, 0.6);
 }
 
+/* 🖼️ Модальное окно */
 .confirmModal {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.7);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 1000;
+  animation: fadeIn 0.3s ease-in;
 }
 
 .modalContent {
-  background: #fff;
+  position: relative;
+  background: linear-gradient(145deg, #1a1a2e, #16213e);
   padding: 2rem;
-  border-radius: 8px;
-  text-align: center;
+  border-radius: 16px;
   max-width: 400px;
   width: 90%;
+  box-shadow: 0 10px 30px rgba(0, 180, 216, 0.3);
+  animation: slideUp 0.5s ease-out;
+}
+
+.modalTitle {
+  font-size: 1.5rem;
+  color: #e5e5e5;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.modalText {
+  font-size: 1rem;
+  color: #e5e5e5;
+  font-weight: 300;
+  margin-bottom: 1rem;
+}
+
+.modalInfo {
+  font-size: 0.9rem;
+  color: #e5e5e5;
+  margin: 0.5rem 0;
 }
 
 .modalButtons {
-  margin-top: 1rem;
   display: flex;
-  justify-content: space-around;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 1rem;
 }
 
 .confirmButton {
-  background: #28a745;
+  background: linear-gradient(45deg, #00b4d8, #90e0ef);
   border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 8px;
-  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border-radius: 50px;
+  color: #1a1a2e;
+  font-size: 0.9rem;
+  font-weight: 600;
   cursor: pointer;
-  transition: background 0.3s;
+  transition: all 0.4s ease;
+  box-shadow: 0 5px 15px rgba(0, 180, 216, 0.4);
 }
 
 .confirmButton:hover {
-  background: #218838;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 180, 216, 0.6);
 }
 
 .cancelButton {
-  background: #dc3545;
+  background: linear-gradient(45deg, #ff4d4d, #e63939);
   border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 8px;
-  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border-radius: 50px;
+  color: #ffffff;
+  font-size: 0.9rem;
+  font-weight: 600;
   cursor: pointer;
-  transition: background 0.3s;
+  transition: all 0.4s ease;
+  box-shadow: 0 5px 15px rgba(255, 77, 77, 0.4);
 }
 
 .cancelButton:hover {
-  background: #c82333;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(255, 77, 77, 0.6);
+}
+
+/* 📱 Адаптивность */
+@media (max-width: 480px) {
+  .container {
+    padding: 2rem;
+  }
+
+  .card {
+    width: 300px;
+    padding: 2rem;
+  }
+
+  .token {
+    font-size: 1.8rem;
+  }
+
+  .message {
+    font-size: 1.1rem;
+  }
+
+  .claimButton {
+    padding: 0.9rem 2rem;
+    font-size: 1rem;
+  }
+
+  .codeDisplay {
+    padding: 1rem;
+  }
+
+  .codeValue {
+    font-size: 1.5rem;
+  }
+
+  .codeButtons {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .modalContent {
+    padding: 1.5rem;
+  }
+}
+
+.walletInfo {
+  margin-top: 1rem;
+  text-align: center;
+  color: #e5e5e5;
+  font-size: 0.9rem;
+}
+
+.disconnectButton {
+  background: linear-gradient(45deg, #ff4d4d, #e63939);
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 50px;
+  color: #ffffff;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.4s ease;
+  box-shadow: 0 5px 15px rgba(255, 77, 77, 0.4);
+  margin-top: 0.5rem;
+}
+
+.disconnectButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(255, 77, 77, 0.6);
+}
+
+.errorMessage {
+  margin-top: 1rem;
+  color: #ff4d4d;
+  text-align: center;
+  font-size: 0.9rem;
+  animation: fadeIn 0.5s ease-in;
 }
