@@ -560,3 +560,49 @@
   font-size: 0.9rem;
   animation: fadeIn 0.5s ease-in;
 }
+
+.verifiedMessage {
+  margin-top: 10px;
+  padding: 8px 16px;
+  background-color: rgba(46, 204, 113, 0.1); /* Зелёный фон с прозрачностью */
+  border: 1px solid #2ecc71;
+  border-radius: 5px;
+  text-align: center;
+  color: #2ecc71;
+  font-weight: 600;
+  font-size: 16px;
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.systemSettings {
+  margin-top: 15px;
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 5px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.9rem;
+}
+
+.pointsDisplay {
+  margin-top: 10px;
+  padding: 8px 16px;
+  background-color: rgba(255, 204, 92, 0.1);
+  border: 1px solid #ffcc5c;
+  border-radius: 5px;
+  text-align: center;
+  color: #ffcc5c;
+  font-weight: 600;
+  font-size: 16px;
+}

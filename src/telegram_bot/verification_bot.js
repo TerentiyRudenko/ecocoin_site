@@ -64,13 +64,14 @@ bot.onText(/\/start/, async (msg) => {
           }
 
           if (userData.one_time_code === enteredCode) {
-            // Код правильный: обновляем isverifiedforcurrentcode и очищаем one_time_code
+            // Код правильный: обновляем isverifiedforcurrentcode и verified
             console.log(`Code verified successfully for telegram_id: ${telegramId}`);
             const { data: updatedData, error: updateError } = await supabase
               .from('users_login_test')
               .update({
                 one_time_code: null,
                 isverifiedforcurrentcode: true,
+                verified: true, // Устанавливаем постоянный флаг
               })
               .eq('telegram_id', telegramId)
               .select();
@@ -82,7 +83,7 @@ bot.onText(/\/start/, async (msg) => {
               console.log(`Updated record for telegram_id: ${telegramId}`, updatedData);
               bot.sendMessage(chatId, 'Verification successful!');
 
-              // Через 5 секунд сбрасываем isverifiedforcurrentcode в false
+              // Через 5 секунд сбрасываем только isverifiedforcurrentcode
               setTimeout(async () => {
                 try {
                   const { data: resetData, error: resetError } = await supabase

@@ -11,6 +11,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@esbuild-plugins/node-globals-polyfill": "^0.2.3",
+    "@solana/spl-token": "^0.4.13",
     "@solana/wallet-adapter-base": "^0.9.24",
     "@solana/wallet-adapter-react": "^0.15.36",
     "@solana/wallet-adapter-react-ui": "^0.9.36",
@@ -19,6 +21,7 @@
     "@supabase/supabase-js": "^2.49.4",
     "@twa-dev/sdk": "^8.0.2",
     "@vitejs/plugin-basic-ssl": "^2.0.0",
+    "buffer": "^6.0.3",
     "cors": "^2.8.5",
     "express": "^5.1.0",
     "node-telegram-bot-api": "^0.66.0",
