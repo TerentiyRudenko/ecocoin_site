@@ -14,6 +14,9 @@ interface UserData {
   tg_id: string;
   tg_username: string;
   points?: number;
+  issession?: boolean;
+  device?: string;
+  registered_devices?: string[];
 }
 
 interface StoredData {
@@ -39,11 +42,36 @@ const GritClaim = () => {
     points: 0,
   });
   const [canGenerateNewCode, setCanGenerateNewCode] = useState(true);
-  
+
   const containerRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const { publicKey, connect, connecting, disconnect, wallet } = useWallet();
   const { setVisible } = useWalletModal();
+
+  // Функция для получения информации об устройстве
+  const getDeviceInfo = (): string => {
+    const userAgent = navigator.userAgent;
+    let deviceName = 'Unknown Device';
+    
+    // Определение мобильных устройств
+    if (/Android/.test(userAgent)) {
+      deviceName = 'Android Device';
+      const modelMatch = userAgent.match(/Android.*;\s([^;]+)\sBuild/i);
+      if (modelMatch) deviceName = modelMatch[1];
+    } else if (/iPhone|iPad|iPod/.test(userAgent)) {
+      deviceName = 'Apple Device';
+      const modelMatch = userAgent.match(/iPhone|iPad|iPod/i);
+      if (modelMatch) deviceName = modelMatch[0];
+    } else if (/Windows/.test(userAgent)) {
+      deviceName = 'Windows PC';
+    } else if (/Macintosh/.test(userAgent)) {
+      deviceName = 'Mac';
+    } else if (/Linux/.test(userAgent)) {
+      deviceName = 'Linux PC';
+    }
+    
+    return deviceName;
+  };
 
   const saveToLocalStorage = (data: StoredData) => {
     try {
@@ -56,11 +84,11 @@ const GritClaim = () => {
   const getFromLocalStorage = (): StoredData => {
     try {
       const data = localStorage.getItem('gritUserData');
-      return data ? JSON.parse(data) : { 
-        isVerified: false, 
-        username: null, 
-        telegramId: null, 
-        points: 0 
+      return data ? JSON.parse(data) : {
+        isVerified: false,
+        username: null,
+        telegramId: null,
+        points: 0
       };
     } catch (error) {
       return { isVerified: false, username: null, telegramId: null, points: 0 };
@@ -98,7 +126,7 @@ const GritClaim = () => {
 
         saveToLocalStorage(verifiedData);
         setStoredData(verifiedData);
-        setOneTimeCode(null); // Скрываем код после подтверждения
+        setOneTimeCode(null);
         return verifiedData;
       }
 
@@ -113,7 +141,7 @@ const GritClaim = () => {
     try {
       const { data, error } = await supabase
         .from('test')
-        .select('solana_wallet, tg_id, tg_username, points')
+        .select('solana_wallet, tg_id, tg_username, points, issession, device, registered_devices')
         .eq('solana_wallet', walletAddress)
         .single();
 
@@ -122,11 +150,22 @@ const GritClaim = () => {
         return null;
       }
 
+      const currentDevice = getDeviceInfo();
+      
+      // Если сессия активна и устройство не совпадает
+      if (data.issession && data.device && data.device !== currentDevice) {
+        setErrorMessage(`Account is already registered on device: ${data.device}`);
+        return null;
+      }
+
       return {
         solana_wallet: data.solana_wallet,
         tg_id: data.tg_id,
         tg_username: data.tg_username,
-        points: data.points || 0
+        points: data.points || 0,
+        issession: data.issession,
+        device: data.device,
+        registered_devices: data.registered_devices,
       };
     } catch (err) {
       setErrorMessage('Error checking wallet.');
@@ -173,8 +212,6 @@ const GritClaim = () => {
       if (user) {
         setUserData(user);
         setShowConfirmModal(true);
-      } else {
-        setErrorMessage('Wallet not linked to Telegram.');
       }
     }
   };
@@ -219,9 +256,32 @@ const GritClaim = () => {
   const confirmTelegramAccount = async () => {
     if (!publicKey || !userData) return;
 
+    const deviceInfo = getDeviceInfo();
+    const registeredDevices = userData.registered_devices || [];
+    
+    if (!registeredDevices.includes(deviceInfo)) {
+      registeredDevices.push(deviceInfo);
+    }
+
     await generateNewCode();
     setShowConfirmModal(false);
     setIsClaiming(true);
+
+    try {
+      const { error } = await supabase
+        .from('test')
+        .update({
+          issession: true,
+          device: deviceInfo,
+          registered_devices: registeredDevices,
+        })
+        .eq('solana_wallet', publicKey.toBase58());
+
+      if (error) throw error;
+    } catch (err) {
+      setErrorMessage('Error updating device information.');
+    }
+
     setTimeout(() => setIsClaiming(false), 1000);
   };
 
@@ -240,7 +300,6 @@ const GritClaim = () => {
         setStoredData(savedData);
       }
     } else {
-      // Сбрасываем все данные при отключении кошелька
       setStoredData({ isVerified: false, username: null, telegramId: null, points: 0 });
       setUserData(null);
       setOneTimeCode(null);
@@ -341,14 +400,14 @@ const GritClaim = () => {
                 on Telegram.
               </p>
               <div className={styles.codeButtons}>
-                <button 
-                  onClick={handleCopyCode} 
+                <button
+                  onClick={handleCopyCode}
                   className={`${styles.codeButton} ${copied ? styles.copied : ''}`}
                 >
                   {copied ? 'Copied!' : 'Copy Code'}
                 </button>
-                <button 
-                  onClick={generateNewCode} 
+                <button
+                  onClick={generateNewCode}
                   className={styles.codeButton}
                   disabled={!canGenerateNewCode}
                 >

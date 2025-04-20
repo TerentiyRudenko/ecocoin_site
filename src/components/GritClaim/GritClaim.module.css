@@ -606,3 +606,48 @@
   font-weight: 600;
   font-size: 16px;
 }
+
+.deviceInfo {
+  margin-top: 20px;
+  padding: 15px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+}
+
+.deviceInfo p {
+  margin: 5px 0;
+  font-size: 0.9em;
+  color: #e5e5e5;
+}
+
+.logoutButton {
+  margin-top: 10px;
+  background: linear-gradient(45deg, #ff6b6b, #ff8787);
+  padding: 8px 16px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+  color: white;
+}
+
+.logoutButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+}
+
+.takeOverButton {
+  margin-top: 10px;
+  background: linear-gradient(45deg, #4e54c8, #8f94fb);
+  padding: 8px 16px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+  color: white;
+}
+
+.takeOverButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(78, 84, 200, 0.4);
+}
