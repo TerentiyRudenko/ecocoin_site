@@ -651,3 +651,73 @@
   transform: translateY(-2px);
   box-shadow: 0 4px 15px rgba(78, 84, 200, 0.4);
 }
+
+/* Добавьте эти стили в конец файла */
+
+.transferSection {
+  margin-top: 20px;
+  width: 100%;
+}
+
+.toggleTransferButton {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-bottom: 10px;
+}
+
+.toggleTransferButton:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.transferForm {
+  background: rgba(0, 0, 0, 0.3);
+  padding: 15px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.formGroup {
+  margin-bottom: 15px;
+}
+
+.formGroup label {
+  display: block;
+  margin-bottom: 5px;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 14px;
+}
+
+.formGroup input {
+  width: 100%;
+  padding: 8px 12px;
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+  color: white;
+}
+
+.transferButton {
+  background: linear-gradient(135deg, #6e8efb, #a777e3);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 100%;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.transferButton:hover {
+  opacity: 0.9;
+}
+
+.transferButton:disabled {
+  background: gray;
+  cursor: not-allowed;
+}

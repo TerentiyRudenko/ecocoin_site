@@ -1,4 +1,6 @@
+import ReactDOM from 'react-dom';
 import React, { useEffect, useState } from 'react';
+import './setupBuffer';
 import RegistrationForm from './components/RegistrationForm/RegistrationForm';
 import NavbarSection from './components/NavbarSection/NavbarSection';
 import GritClaim from './components/GritClaim/GritClaim';
@@ -9,7 +11,8 @@ import TokenomicsRoadmapSection from './components/TokenomicsRoadmapSection/Toke
 import Footer from './components/Footer/Footer';
 import './App.css';
 
-import ReactDOM from 'react-dom/client';
+console.log('Buffer is defined:', typeof Buffer !== 'undefined');
+
 import { WalletContext } from './components/WalletContext/WalletContext';
 
 
